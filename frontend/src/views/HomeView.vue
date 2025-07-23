@@ -15,31 +15,48 @@
           </p>
           <div class="flex justify-center space-x-4 mt-6">
             <router-link to="/app" class="btn-secondary">
-              Explorar Casos
+              Ver Propiedades
             </router-link>
             
           </div>
         </div>
-        <!-- Statistics Section Overlay -->
-        <div class="mt-20 flex justify-center">
-          <div class="w-full max-w-6xl bg-white/70 rounded-xl shadow-lg p-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-              <div class="flex flex-col items-center text-center">
-                <div class="text-4xl font-bold text-black mb-2">{{ stats.totalCases }}</div>
-                <div class="text-gray-600">Casos Documentados</div>
-              </div>
-              <div class="flex flex-col items-center text-center">
-                <div class="text-4xl font-bold text-black mb-2">€{{ formatAmount(stats.totalAmount) }}</div>
-                <div class="text-gray-600">Dinero Público Involucrado</div>
-              </div>
-              <div class="flex flex-col items-center text-center">
-                <div class="text-4xl font-bold text-black mb-2">{{ stats.featuredCount }}</div>
-                <div class="text-gray-600">Casos Destacados</div>
-              </div>
-              <div class="flex flex-col items-center text-center">
-                <div class="text-4xl font-bold text-black mb-2">{{ stats.partiesCount }}</div>
-                <div class="text-gray-600">Partidos Políticos</div>
-              </div>
+      </div>
+
+    </section>
+
+    <!-- Nuestros Servicios Section -->
+    <section class="py-12 bg-white/80">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-gray-900 mb-10 text-center">Nuestros Servicios</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-palette-beige rounded-xl shadow flex flex-col items-center p-8">
+            <div class="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-palette-taupe/20">
+              <!-- Icon placeholder -->
+              <span class="text-3xl text-palette-taupe">🏠</span>
+            </div>
+            <div class="text-center">
+              <h3 class="text-xl font-semibold mb-2">Gestión Integral de Alquileres</h3>
+              <p class="text-gray-700 text-sm">Nos encargamos de todo el proceso de alquiler para que no tengas que preocuparte por nada.</p>
+            </div>
+          </div>
+          <div class="bg-palette-beige rounded-xl shadow flex flex-col items-center p-8">
+            <div class="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-palette-taupe/20">
+              <!-- Icon placeholder -->
+              <span class="text-3xl text-palette-taupe">🧹</span>
+            </div>
+            <div class="text-center">
+              <h3 class="text-xl font-semibold mb-2">Limpieza y Mantenimiento</h3>
+              <p class="text-gray-700 text-sm">Ofrecemos servicios de limpieza profesional y mantenimiento para mantener tu propiedad impecable.</p>
+            </div>
+          </div>
+          <div class="bg-palette-beige rounded-xl shadow flex flex-col items-center p-8">
+            <div class="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-palette-taupe/20">
+              <!-- Icon placeholder -->
+              <span class="text-3xl text-palette-taupe">📸</span>
+            </div>
+            <div class="text-center">
+              <h3 class="text-xl font-semibold mb-2">Fotografía Profesional</h3>
+              <p class="text-gray-700 text-sm">Realzamos tu propiedad con fotografías de alta calidad para atraer a más inquilinos.</p>
             </div>
           </div>
         </div>
@@ -119,7 +136,7 @@
 </template>
 
 <script>
-import landingBg from '../assets/backgroundcorruption.png' // Adjust path if needed
+import landingBg from '../assets/malaga.jpg'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: 'HomeView',
