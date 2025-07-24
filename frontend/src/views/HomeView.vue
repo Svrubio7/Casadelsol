@@ -31,32 +31,26 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div class="bg-palette-beige rounded-xl shadow flex flex-col items-center p-8">
             <div class="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-palette-taupe/20">
-              <!-- Icon placeholder -->
-              <span class="text-3xl text-palette-taupe">🏠</span>
+              <RentIcon class="w-10 h-10 text-palette-taupe" />
             </div>
             <div class="text-center">
-              <h3 class="text-xl font-semibold mb-2">Gestión Integral de Alquileres</h3>
-              <p class="text-gray-700 text-sm">Nos encargamos de todo el proceso de alquiler para que no tengas que preocuparte por nada.</p>
+              <h3 class="text-xl font-semibold">Alquiler Vacacional</h3>
             </div>
           </div>
           <div class="bg-palette-beige rounded-xl shadow flex flex-col items-center p-8">
             <div class="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-palette-taupe/20">
-              <!-- Icon placeholder -->
-              <span class="text-3xl text-palette-taupe">🧹</span>
+              <ManagementIcon class="w-10 h-10 text-palette-taupe" />
             </div>
             <div class="text-center">
-              <h3 class="text-xl font-semibold mb-2">Limpieza y Mantenimiento</h3>
-              <p class="text-gray-700 text-sm">Ofrecemos servicios de limpieza profesional y mantenimiento para mantener tu propiedad impecable.</p>
+              <h3 class="text-xl font-semibold">Gestión de Propiedades</h3>
             </div>
           </div>
           <div class="bg-palette-beige rounded-xl shadow flex flex-col items-center p-8">
             <div class="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-palette-taupe/20">
-              <!-- Icon placeholder -->
-              <span class="text-3xl text-palette-taupe">📸</span>
+              <LocationIcon class="w-10 h-10 text-palette-taupe" />
             </div>
             <div class="text-center">
-              <h3 class="text-xl font-semibold mb-2">Fotografía Profesional</h3>
-              <p class="text-gray-700 text-sm">Realzamos tu propiedad con fotografías de alta calidad para atraer a más inquilinos.</p>
+              <h3 class="text-xl font-semibold">Viajes a Medida</h3>
             </div>
           </div>
         </div>
@@ -137,9 +131,17 @@
 
 <script>
 import landingBg from '../assets/malaga.jpg'
+import RentIcon from '../assets/rentIcon.vue'
+import ManagementIcon from '../assets/managementIcon.vue'
+import LocationIcon from '../assets/locationIcon.vue'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: 'HomeView',
+  components: {
+    RentIcon,
+    ManagementIcon,
+    LocationIcon
+  },
   data() {
     return {
       stats: {

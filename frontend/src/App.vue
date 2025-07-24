@@ -19,7 +19,7 @@ export default {
         <!-- Mobile: Centered logo absolutely -->
         <div class="md:hidden absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center h-full">
           <img
-            src="/paglogo.png"
+            src="/paglogo.jpg"
             alt="Casa del Sol Logo"
             class="h-8 w-auto max-h-10"
           />

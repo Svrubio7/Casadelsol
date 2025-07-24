@@ -9,8 +9,8 @@ export default {
       colors: {
         palette: {
           light: '#F2F2F2',
-          beige: '#EAE4D5',
-          taupe: '#B6B09F',
+          beige: '#DEBD26',
+          taupe: '#041E47',
           black: '#000000',
         },
         // You can keep or remove primary/secondary if you want
