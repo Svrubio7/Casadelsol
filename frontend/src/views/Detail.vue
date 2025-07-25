@@ -35,9 +35,9 @@
     
     <!-- Reserva ya! Button -->
     <div class="flex justify-center mt-8 mb-4">
-      <button class="btn-tertiary text-sm md:text-base px-6 py-3 md:px-8 md:py-4">
+      <a href="https://wa.me/message/LN7BEZCQDMBWP1" target="_blank" class="btn-tertiary text-sm md:text-base px-6 py-3 md:px-8 md:py-4 inline-block text-center">
         Reserva ya!
-      </button>
+      </a>
     </div>
   </div>
   <div v-else class="text-center py-20 text-xl text-gray-500">Cargando...</div>

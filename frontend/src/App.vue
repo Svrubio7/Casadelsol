@@ -27,7 +27,7 @@ export default {
         </div>
         <!-- Desktop: Right menu -->
         <div class="flex-1 flex justify-end space-x-6 hidden md:flex font-bold text-palette-yellow">
-          <router-link to="/contact" class="hover:text-palette-taupe font-bold">Contáctanos</router-link>
+          <a href="https://wa.me/message/LN7BEZCQDMBWP1" target="_blank" class="hover:text-palette-taupe font-bold">Contáctanos</a>
         </div>
       </div>
     </nav>
