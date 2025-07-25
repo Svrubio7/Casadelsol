@@ -26,11 +26,27 @@
       <span v-if="propertyData.discount">
         <span v-if="propertyData.airbnb_link">&nbsp;| </span><span class="font-semibold">Descuento Especial:</span> {{ propertyData.discount }}
       </span>
-      <!-- Removed duplicate descripcion here -->
     </div>
-    <div v-if="propertyData.imagenes" class="mb-6">
-      <h2 class="text-xl font-semibold mb-2">Imágenes adicionales</h2>
-      <img :src="propertyData.imagenes" alt="Imágenes adicionales" class="w-full rounded" />
+    
+    <!-- Additional Images Section -->
+    <div v-if="propertyData.additional_images && propertyData.additional_images.length > 0" class="mb-6">
+      <h2 class="text-xl font-semibold mb-4">Imágenes adicionales</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div 
+          v-for="image in propertyData.additional_images" 
+          :key="image.id" 
+          class="bg-white rounded-lg shadow-md overflow-hidden"
+        >
+          <img 
+            :src="image.image" 
+            :alt="image.caption || 'Imagen adicional'" 
+            class="w-full h-48 object-cover"
+          />
+          <div v-if="image.caption" class="p-3">
+            <p class="text-sm text-gray-700 font-medium">{{ image.caption }}</p>
+          </div>
+        </div>
+      </div>
     </div>
     
     <!-- Reserva ya! Button -->

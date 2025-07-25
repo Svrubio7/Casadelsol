@@ -10,13 +10,26 @@ class Property(models.Model):
     banos = models.PositiveIntegerField("Baños")
     precio = models.DecimalField("Precio", max_digits=10, decimal_places=2)
     descripcion = models.TextField("Descripción")
-    long_description = models.TextField("Descripción", blank=True)
+    long_description = models.TextField("Descripción Larga", blank=True)
     discount = models.TextField("Descuento Especial!", blank=True)
-    imagenes = models.ImageField("Imágenes", upload_to="properties/extra/", blank=True)
     featured = models.BooleanField("Destacado", default=False)
 
     class Meta:
         verbose_name_plural = "Properties"
 
     def __str__(self):
-        return f"{self.descripcion[:50]}..." if len(self.descripcion) > 50 else self.descripcion
+        return self.title
+
+class PropertyImage(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='additional_images')
+    image = models.ImageField("Imagen", upload_to="properties/extra/")
+    caption = models.CharField("Título de la imagen", max_length=200, blank=True)
+    order = models.PositiveIntegerField("Orden", default=0)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Imagen de Propiedad"
+        verbose_name_plural = "Imágenes de Propiedades"
+
+    def __str__(self):
+        return f"{self.property.title} - {self.caption or 'Imagen adicional'}"

@@ -11,7 +11,7 @@
             Casa del Sol
           </h1>
           <p class="text-sm md:text-lg lg:text-2xl font-bold mb-4 md:mb-6 max-w-3xl mx-auto text-palette-taupe px-2">
-            El mejor lugar para organizar tus vacaciones perfectas en la Costa del Sol. Alquila hoy mismo y disfruta de un descuento del 10% respecto a Airbnb.
+            El mejor lugar para organizar tus vacaciones perfectas en la Costa del Sol. Alquila hoy mismo y disfruta de un descuento del 10% respecto a otros portales.
           </p>
           <div class="flex justify-center mt-6 md:mt-10">
             <button @click="scrollToProperties" class="btn-tertiary text-sm md:text-base px-6 py-3 md:px-8 md:py-4">
