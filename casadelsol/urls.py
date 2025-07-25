@@ -24,13 +24,17 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/properties/', include('properties.urls')),
-    # Serve frontend for all other routes
-    re_path(r'^.*$', views.serve_frontend, name='frontend'),
 ]
 
-# Serve media files in both development and production
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Serve static files in development
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# Serve frontend for all other routes (exclude media and static)
+urlpatterns += [
+    re_path(r'^(?!media/|static/|admin/|api/).*$', views.serve_frontend, name='frontend'),
+]
+
+# Serve media files in both development and production
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
