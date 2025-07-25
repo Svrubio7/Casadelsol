@@ -18,7 +18,7 @@ export default {
           beige: '#D4AF37',
           taupe: '#0C2340',
           black: '#000000',
-          yellow: '#F79282',
+          yellow: '#FA8C7A',
         },
       },
       fontFamily: {

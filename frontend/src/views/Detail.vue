@@ -24,7 +24,7 @@
         <a :href="propertyData.airbnb_link" target="_blank" class="text-blue-600 hover:underline">Ver en AirBnB</a>
       </span>
       <span v-if="propertyData.discount">
-        &nbsp;| <span class="font-semibold">Descuento Especial:</span> {{ propertyData.discount }}
+        <span v-if="propertyData.airbnb_link">&nbsp;| </span><span class="font-semibold">Descuento Especial:</span> {{ propertyData.discount }}
       </span>
       <!-- Removed duplicate descripcion here -->
     </div>
@@ -33,6 +33,12 @@
       <img :src="propertyData.imagenes" alt="Imágenes adicionales" class="w-full rounded" />
     </div>
     
+    <!-- Reserva ya! Button -->
+    <div class="flex justify-center mt-8 mb-4">
+      <button class="btn-tertiary text-sm md:text-base px-6 py-3 md:px-8 md:py-4">
+        Reserva ya!
+      </button>
+    </div>
   </div>
   <div v-else class="text-center py-20 text-xl text-gray-500">Cargando...</div>
 </template>

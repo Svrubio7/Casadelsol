@@ -7,7 +7,7 @@ export default {
 <template>
   <div class="min-h-screen flex flex-col bg-palette-light text-palette-black">
     <!-- Navbar -->
-    <nav class="bg-white/50 shadow-sm border-b border-gray-200 fixed w-full z-30 h-14 md:h-16 backdrop-blur">
+    <nav class="bg-white/50 shadow-sm border-b border-gray-200 fixed w-full z-30 h-12 md:h-16 backdrop-blur">
       <div class="container mx-auto px-4 py-0 flex justify-between items-center h-full">
         <!-- Desktop: Left text, right menu; Mobile: Centered logo only -->
         <div class="flex-1 flex items-center">
@@ -22,7 +22,7 @@ export default {
           <img
             src="/paglogo.jpg"
             alt="Casa del Sol Logo"
-            class="h-8 w-auto max-h-10"
+            class="h-6 w-auto max-h-8"
           />
         </div>
         <!-- Desktop: Right menu -->
@@ -32,7 +32,7 @@ export default {
       </div>
     </nav>
     <!-- Main Content -->
-    <main class="flex-1 pt-14 md:pt-16">
+    <main class="flex-1 pt-12 md:pt-16">
       <router-view />
     </main>
     <!-- Footer -->
