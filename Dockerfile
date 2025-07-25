@@ -26,7 +26,6 @@ RUN npm install
 RUN npm run build
 WORKDIR /app
 
-# Collect static files (if needed)
 RUN python manage.py collectstatic --noinput
 
 # Copy nginx config
@@ -35,8 +34,12 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Remove default nginx site config
 RUN rm /etc/nginx/sites-enabled/default || true
 
-# Expose port 80
 EXPOSE 80
 
-# Start Gunicorn and nginx
-CMD service nginx start && gunicorn corruption_portal.wsgi:application --bind 127.0.0.1:8000 --workers 3
+RUN python manage.py collectstatic --noinput
+
+# Expose port for Django
+EXPOSE 8000
+
+# Entrypoint
+CMD ["gunicorn", "casadelsol.wsgi:application", "--bind", "0.0.0.0:8000"]

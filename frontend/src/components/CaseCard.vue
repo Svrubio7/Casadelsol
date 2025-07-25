@@ -3,20 +3,22 @@
     <router-link :to="`/apartments/${caseData.id}`" class="block">
       <img
         v-if="caseData.main_image"
-        :src="caseData.main_image"
-        :alt="caseData.descripcion"
-        class="w-full h-48 object-cover"
+        :src="getImageUrl(caseData.main_image)"
+        :alt="caseData.title"
+        class="w-full h-36 object-cover"
       />
-      <div v-else class="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-400">
+      <div v-else class="w-full h-32 bg-gray-200 flex items-center justify-center text-gray-400">
         Sin imagen
       </div>
       <div class="p-4 flex-1 flex flex-col">
-        <h3 class="text-lg font-bold text-gray-900 mb-2">{{ caseData.descripcion }}</h3>
-        <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ caseData.discount }}</p>
-        <div class="mt-auto flex items-center justify-between">
-          <span v-if="caseData.precio" class="text-primary-600 font-semibold">€{{ formatAmount(caseData.precio) }}</span>
-          <span v-if="caseData.habitaciones" class="text-xs text-gray-500">{{ caseData.habitaciones }} hab.</span>
+        <div v-if="caseData.habitaciones || caseData.banos" class="text-base text-gray-500 mb-0">{{ caseData.habitaciones }} hab. / {{ caseData.banos }} baños</div>
+        <div class="flex items-start justify-between mb-1">
+          <h3 class="text-2xl font-bold text-gray-900">{{ caseData.title }}</h3>
+          <span v-if="caseData.precio" class="text-xl text-primary-600 font-semibold ml-4 whitespace-nowrap">€{{ formatAmount(caseData.precio) }} <span class="text-base font-bold">p/n</span></span>
         </div>
+        <div class="text-lg text-gray-700 mb-2 line-clamp-2">{{ caseData.descripcion }}</div>
+        <div class="text-base text-gray-500 mb-1">{{ caseData.location }}</div>
+        <p class="text-gray-600 text-base mb-2 line-clamp-3">{{ caseData.discount }}</p>
       </div>
     </router-link>
   </div>
@@ -32,6 +34,12 @@ export default {
   methods: {
     formatAmount(amount) {
       return new Intl.NumberFormat('es-ES').format(amount)
+    },
+    getImageUrl(path) {
+      if (!path) return '';
+      if (path.startsWith('http')) return path;
+      // Always serve from /media/ for local images
+      return path.startsWith('/media/') ? path : `/media/${path.replace(/^\\|^\//, '')}`;
     },
   }
 }

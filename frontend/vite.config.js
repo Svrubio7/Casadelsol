@@ -11,11 +11,16 @@ export default defineConfig({
     },
   },
   server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8000', // Change this to your Django backend port
-        changeOrigin: true,
-        secure: false,
+  proxy: {
+    '/api': {
+      target: 'http://localhost:8000',
+      changeOrigin: true,
+      secure: false,
+    },
+    '/media': {
+      target: 'http://localhost:8000',
+      changeOrigin: true,
+      secure: false,
       },
     },
   },
