@@ -26,6 +26,8 @@ urlpatterns = [
     path('api/properties/', include('properties.urls')),
 ]
 
+# Serve media files in both development and production
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Serve static files in development
 if settings.DEBUG:
@@ -35,6 +37,3 @@ if settings.DEBUG:
 urlpatterns += [
     re_path(r'^(?!media/|static/|admin/|api/).*$', views.serve_frontend, name='frontend'),
 ]
-
-# Serve media files in both development and production
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
