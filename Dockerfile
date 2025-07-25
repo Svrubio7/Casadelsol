@@ -26,6 +26,10 @@ RUN npm install
 RUN npm run build
 WORKDIR /app
 
+# Copy frontend build to staticfiles directory
+RUN cp -r frontend/dist/* staticfiles/
+
+# Collect static files
 RUN python manage.py collectstatic --noinput
 
 # Copy nginx config
@@ -35,8 +39,6 @@ COPY nginx.conf /etc/nginx/nginx.conf
 RUN rm /etc/nginx/sites-enabled/default || true
 
 EXPOSE 80
-
-RUN python manage.py collectstatic --noinput
 
 # Expose port for Django
 EXPOSE 8000
