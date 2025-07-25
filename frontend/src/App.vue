@@ -9,25 +9,17 @@ export default {
     <!-- Navbar -->
     <nav class="bg-white/50 shadow-sm border-b border-gray-200 fixed w-full z-30 h-12 md:h-16 backdrop-blur">
       <div class="container mx-auto px-4 py-0 flex justify-between items-center h-full">
-        <!-- Desktop: Left text, right menu; Mobile: Centered logo only -->
+        <!-- Logo and text - same for mobile and desktop -->
         <div class="flex-1 flex items-center">
-          <!-- Desktop: Logo and text -->
-          <router-link to="/" class="hidden md:flex items-center space-x-3">
-            <img src="/paglogodark.jpg" alt="Casa del Sol Logo" class="h-8 w-auto max-h-10" />
-            <span class="text-xl font-bold text-palette-taupe">CASA <span class="text-palette-taupe">DEL SOL</span></span>
+          <router-link to="/" class="flex items-center space-x-2 md:space-x-3">
+            <img src="/paglogodark.jpg" alt="Casa del Sol Logo" class="h-6 w-auto max-h-8 md:h-8 md:max-h-10" />
+            <span class="text-sm md:text-xl font-bold text-palette-taupe">CASA <span class="text-palette-taupe">DEL SOL</span></span>
           </router-link>
         </div>
-        <!-- Mobile: Centered logo absolutely -->
-        <div class="md:hidden absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center h-full">
-          <img
-            src="/paglogo.jpg"
-            alt="Casa del Sol Logo"
-            class="h-6 w-auto max-h-8"
-          />
-        </div>
-        <!-- Desktop: Right menu -->
-        <div class="flex-1 flex justify-end space-x-6 hidden md:flex font-bold text-palette-yellow">
-          <a href="https://wa.me/message/LN7BEZCQDMBWP1" target="_blank" class="hover:text-palette-taupe font-bold">Contáctanos</a>
+        
+        <!-- Contact link - same for mobile and desktop -->
+        <div class="flex-1 flex justify-end space-x-4 md:space-x-6 font-bold text-palette-yellow">
+          <a href="https://wa.me/message/LN7BEZCQDMBWP1" target="_blank" class="text-sm md:text-base hover:text-palette-taupe font-bold">Contáctanos</a>
         </div>
       </div>
     </nav>
