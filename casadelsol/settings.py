@@ -149,7 +149,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Use whitenoise for static files
 STATICFILES_STORAGE = "whitenoise.storage.StaticFilesStorage"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Media files - point to persistent disk mount
+MEDIA_ROOT = '/media'
 MEDIA_URL = '/media/'
 
 # Default primary key field type
