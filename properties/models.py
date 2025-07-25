@@ -29,7 +29,7 @@ class PropertyImage(models.Model):
     class Meta:
         ordering = ['order']
         verbose_name = "Imagen de Propiedad"
-        verbose_name_plural = "Imágenes de Propiedades"
+        verbose_name_plural = "Imágenes de la propiedad"
 
     def __str__(self):
         return f"{self.property.title} - {self.caption or 'Imagen adicional'}"

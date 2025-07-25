@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',  
+    'rest_framework',
     'properties',
 ]
 
@@ -103,7 +104,7 @@ REST_FRAMEWORK = {
 import os
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite3')
+        default=os.environ.get('DATABASE_URL')
     )
 }
 
@@ -137,8 +138,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATIC_URL = '/static/'
@@ -147,7 +146,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Use simpler static file storage to avoid 500 errors
+# Use whitenoise for static files
 STATICFILES_STORAGE = "whitenoise.storage.StaticFilesStorage"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
