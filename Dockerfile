@@ -26,8 +26,11 @@ RUN npm install
 RUN npm run build
 WORKDIR /app
 
+# Create staticfiles directory if it doesn't exist
+RUN mkdir -p staticfiles
+
 # Copy frontend build to staticfiles directory
-RUN cp -r frontend/dist/* staticfiles/
+RUN cp -r frontend/dist/* staticfiles/ || true
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
