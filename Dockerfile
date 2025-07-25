@@ -26,7 +26,8 @@ RUN npm install
 RUN npm run build
 WORKDIR /app
 
-# Collect static files (if needed)
+# Remove old staticfiles and collect fresh static files
+RUN rm -rf staticfiles
 RUN python manage.py collectstatic --noinput
 
 # Copy nginx config

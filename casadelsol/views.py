@@ -13,4 +13,4 @@ def serve_frontend(request):
         return HttpResponse(content, content_type='text/html')
     else:
         # Fallback to a simple message if index.html doesn't exist
-        return HttpResponse("Frontend not found. Please build the frontend first.", status=404) 
+        return HttpResponse(f"Frontend not found. Looking for: {index_path}", status=404) 
