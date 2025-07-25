@@ -43,5 +43,5 @@ EXPOSE 80
 # Expose port for Django
 EXPOSE 8000
 
-# Entrypoint
-CMD ["gunicorn", "casadelsol.wsgi:application", "--bind", "0.0.0.0:8000"]
+# Entrypoint - start nginx and gunicorn
+CMD service nginx start && gunicorn casadelsol.wsgi:application --bind 127.0.0.1:8000 --workers 3
