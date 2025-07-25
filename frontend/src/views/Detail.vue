@@ -9,7 +9,6 @@
     />
     <h1 class="text-3xl font-bold mb-2 text-palette-black">{{ propertyData.title }}</h1>
     <div class="text-lg text-gray-600 mb-2">{{ propertyData.location }}</div>
-    <div class="mb-4 text-base text-palette-black">{{ propertyData.descripcion }}</div>
     <div v-if="propertyData.long_description" class="mb-6 text-lg text-palette-black">
       <h2 class="text-xl font-semibold mb-2">Descripción completa</h2>
       <p>{{ propertyData.long_description }}</p>
@@ -33,9 +32,7 @@
       <h2 class="text-xl font-semibold mb-2">Imágenes adicionales</h2>
       <img :src="propertyData.imagenes" alt="Imágenes adicionales" class="w-full rounded" />
     </div>
-    <router-link to="/apartments" class="btn-primary bg-palette-black text-palette-light px-6 py-2 rounded-lg font-semibold hover:bg-palette-taupe transition">
-      Volver al listado
-    </router-link>
+    
   </div>
   <div v-else class="text-center py-20 text-xl text-gray-500">Cargando...</div>
 </template>
