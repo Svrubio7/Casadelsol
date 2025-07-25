@@ -26,13 +26,7 @@ RUN npm install
 RUN npm run build
 WORKDIR /app
 
-# Create staticfiles directory if it doesn't exist
-RUN mkdir -p staticfiles
-
-# Copy frontend build to staticfiles directory
-RUN cp -r frontend/dist/* staticfiles/ || true
-
-# Collect static files
+# Collect static files (if needed)
 RUN python manage.py collectstatic --noinput
 
 # Copy nginx config
@@ -41,10 +35,6 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Remove default nginx site config
 RUN rm /etc/nginx/sites-enabled/default || true
 
+# Expose port 80
 EXPOSE 80
-
-# Expose port for Django
-EXPOSE 8000
-
-# Entrypoint - start nginx and gunicorn
 CMD service nginx start && gunicorn casadelsol.wsgi:application --bind 127.0.0.1:8000 --workers 3
