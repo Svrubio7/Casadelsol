@@ -23,7 +23,7 @@
   }
   
   .btn-tertiary {
-    @apply bg-palette-taupe hover:bg-palette-yellow text-palette-light font-medium py-4 px-8 rounded-lg transition-colors duration-200 text-lg;
+    @apply bg-palette-taupe hover:bg-palette-yellow text-palette-light font-bold py-4 px-8 rounded-lg transition-colors duration-200 text-lg;
   }
   .card {
     @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;

@@ -29,8 +29,19 @@ export default {
     </main>
     <!-- Footer -->
     <footer class="bg-palette-yellow text-palette-light py-6 mt-12 border-t border-gray-200">
-      <div class="container mx-auto px-4 text-center text-sm">
-        © {{ new Date().getFullYear() }} Casa del Sol.
+      <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center">
+          <div class="text-sm">
+            © {{ new Date().getFullYear() }} Casa del Sol.
+          </div>
+          <div class="text-right">
+            <h4 class="text-sm font-bold mb-1">Contáctanos</h4>
+            <div class="text-xs space-y-0.5">
+              <p>Email: <a href="mailto:casadelsolholidays@gmail.com" class="hover:underline">casadelsolholidays@gmail.com</a></p>
+              <p>WhatsApp: <a href="https://wa.me/34678318713" target="_blank" class="hover:underline">+34 678 31 87 13</a></p>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   </div>

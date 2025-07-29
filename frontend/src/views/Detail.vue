@@ -9,6 +9,12 @@
       class="w-full h-64 object-cover rounded mb-6 cursor-pointer hover:opacity-90 transition-opacity"
       @click="openGallery(0)"
     />
+    <!-- Reserva ya! Button -->
+    <div class="flex justify-center mt-8 mb-4">
+      <a href="https://wa.me/message/LN7BEZCQDMBWP1" target="_blank" class="btn-tertiary text-sm md:text-base px-6 py-3 md:px-8 md:py-4 inline-block text-center">
+        Reserva ya!
+      </a>
+    </div>
     <h1 class="text-3xl font-bold mb-2 text-palette-black">{{ propertyData.title }}</h1>
     <div class="text-lg text-gray-600 mb-2">{{ propertyData.location }}</div>
     <div v-if="propertyData.long_description" class="mb-6 text-lg text-palette-black">
@@ -52,12 +58,6 @@
       </div>
     </div>
     
-    <!-- Reserva ya! Button -->
-    <div class="flex justify-center mt-8 mb-4">
-      <a href="https://wa.me/message/LN7BEZCQDMBWP1" target="_blank" class="btn-tertiary text-sm md:text-base px-6 py-3 md:px-8 md:py-4 inline-block text-center">
-        Reserva ya!
-      </a>
-    </div>
 
     <!-- Image Gallery Modal -->
     <div v-if="showGallery" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center" @click="closeGallery">
