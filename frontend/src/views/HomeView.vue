@@ -100,7 +100,7 @@ import landingBg from '../assets/malaga.jpg'
 import RentIcon from '../assets/renticon.png'
 import ManagementIcon from '../assets/managementicon.png'
 import LocationIcon from '../assets/locationicon.png'
-import ProfileImage from '../assets/Screenshot 2025-07-31 095955.png'
+import ProfileImage from '../assets/pelu.jpg'
 import CaseCard from '../components/CaseCard.vue'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default {
