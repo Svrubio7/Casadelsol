@@ -82,7 +82,7 @@
           </div>
           <div class="w-full md:w-2/3">
             <div class="text-gray-600 italic text-sm md:text-base space-y-4">
-              <p>¡Bienvenidos a Casa del Sol! Soy el orgulloso propietario y fundador de esta empresa de alquileres vacacionales, dedicada a crear estancias inolvidables para cada huésped. Con años de experiencia en la industria de la hospitalidad y una profunda pasión por los viajes, he diseñado cada propiedad para combinar comodidad, estilo y un toque del encanto local. Ya sea que estés buscando una escapada tranquila o unas vacaciones llenas de aventuras, Casa del Sol ofrece espacios cuidadosamente diseñados que se sienten como un verdadero hogar lejos de casa.</p>
+              <p>¡Bienvenidos a Casa del Sol! Soy la orgullosa propietaria y fundadora de esta empresa de alquileres vacacionales, dedicada a crear estancias inolvidables para cada huésped. Con años de experiencia en la industria de la hospitalidad y una profunda pasión por los viajes, he diseñado cada propiedad para combinar comodidad, estilo y un toque del encanto local. Ya sea que estés buscando una escapada tranquila o unas vacaciones llenas de aventuras, Casa del Sol ofrece espacios cuidadosamente diseñados que se sienten como un verdadero hogar lejos de casa.</p>
               
               <p>Como Superanfitrión en Airbnb, me enorgullece brindar un servicio excepcional y experiencias personalizadas. Mi objetivo es que cada huésped se sienta bienvenido, atendido e inspirado a volver. Desde el momento en que reservas con Casa del Sol hasta el día de tu salida, estoy aquí para asegurarme de que tu estancia sea perfecta y memorable.</p>
               
