@@ -8,7 +8,7 @@
       <div class="w-full px-4 md:px-8 flex-1 flex flex-col justify-center">
         <div class="text-center">
           <h1 class="text-2xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6 lg:mb-8 text-palette-taupe">
-            Casa del Sol
+            <span class="notranslate">Casa del Sol</span>
           </h1>
           <p class="text-sm md:text-lg lg:text-2xl font-bold mb-4 md:mb-6 max-w-3xl mx-auto text-palette-taupe px-2">
             El mejor lugar para organizar tus vacaciones perfectas en la Costa del Sol. Alquila hoy mismo y disfruta de un descuento del 10% respecto a otros portales.
@@ -82,9 +82,9 @@
           </div>
           <div class="w-full md:w-2/3">
             <div class="text-gray-600 italic text-sm md:text-base space-y-4">
-              <p>¡Bienvenidos a Casa del Sol! Soy la orgullosa propietaria y fundadora de esta empresa de alquileres vacacionales, dedicada a crear estancias inolvidables para cada huésped. Con años de experiencia en la industria de la hospitalidad y una profunda pasión por los viajes, he diseñado cada propiedad para combinar comodidad, estilo y un toque del encanto local. Ya sea que estés buscando una escapada tranquila o unas vacaciones llenas de aventuras, Casa del Sol ofrece espacios cuidadosamente diseñados que se sienten como un verdadero hogar lejos de casa.</p>
+              <p>¡Bienvenidos a <span class="notranslate">Casa del Sol</span>! Soy la orgullosa propietaria y fundadora de esta empresa de alquileres vacacionales, dedicada a crear estancias inolvidables para cada huésped. Con años de experiencia en la industria de la hospitalidad y una profunda pasión por los viajes, he diseñado cada propiedad para combinar comodidad, estilo y un toque del encanto local. Ya sea que estés buscando una escapada tranquila o unas vacaciones llenas de aventuras, <span class="notranslate">Casa del Sol</span> ofrece espacios cuidadosamente diseñados que se sienten como un verdadero hogar lejos de casa.</p>
               
-              <p>Como Superanfitrión en Airbnb, me enorgullece brindar un servicio excepcional y experiencias personalizadas. Mi objetivo es que cada huésped se sienta bienvenido, atendido e inspirado a volver. Desde el momento en que reservas con Casa del Sol hasta el día de tu salida, estoy aquí para asegurarme de que tu estancia sea perfecta y memorable.</p>
+              <p>Como Superanfitrión en Airbnb, me enorgullece brindar un servicio excepcional y experiencias personalizadas. Mi objetivo es que cada huésped se sienta bienvenido, atendido e inspirado a volver. Desde el momento en que reservas con <span class="notranslate">Casa del Sol</span> hasta el día de tu salida, estoy aquí para asegurarme de que tu estancia sea perfecta y memorable.</p>
               
               <p>Además de ser anfitrión, también ofrezco servicios de gestión de propiedades vacacionales para propietarios que desean generar ingresos sin el estrés de las operaciones diarias. Si tienes una propiedad y estás buscando un socio de confianza que se encargue de todo, desde la comunicación con los huéspedes y la limpieza hasta el marketing y el mantenimiento, me encantaría ayudarte. Convirtamos tu hogar en un destino de cinco estrellas.</p>
             </div>

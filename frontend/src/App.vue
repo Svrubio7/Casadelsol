@@ -13,7 +13,7 @@ export default {
         <div class="flex-1 flex items-center">
           <router-link to="/" class="flex items-center space-x-2 md:space-x-3">
             <img src="/paglogodark.jpg" alt="Casa del Sol Logo" class="h-6 w-auto max-h-8 md:h-8 md:max-h-10" />
-            <span class="text-sm md:text-xl font-bold text-palette-taupe">CASA <span class="text-palette-taupe">DEL SOL</span></span>
+            <span class="text-sm md:text-xl font-bold text-palette-taupe"><span class="notranslate">CASA DEL SOL</span></span>
           </router-link>
         </div>
         
@@ -32,7 +32,7 @@ export default {
       <div class="container mx-auto px-4">
         <div class="flex justify-between items-center">
           <div class="text-sm">
-            © {{ new Date().getFullYear() }} Casa del Sol.
+            © {{ new Date().getFullYear() }} <span class="notranslate">Casa del Sol</span>.
           </div>
           <div class="text-right">
             <h4 class="text-sm font-bold mb-1">Contáctanos</h4>
