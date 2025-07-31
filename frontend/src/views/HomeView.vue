@@ -71,6 +71,27 @@
         </div>
       </div>
     </section>
+
+    <!-- Quién soy Section -->
+    <section class="py-12 md:py-16 bg-palette-light">
+      <div class="w-full px-4 md:px-8">
+        <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-8 md:mb-12 lg:mb-20 text-center text-palette-taupe">¿Quién soy?</h2>
+        <div class="flex flex-col md:flex-row items-center gap-8 max-w-6xl mx-auto">
+          <div class="w-full md:w-1/3 flex justify-center">
+            <img :src="ProfileImage" alt="Foto del propietario" class="w-64 h-64 object-cover rounded-full shadow-lg" />
+          </div>
+          <div class="w-full md:w-2/3">
+            <div class="text-gray-600 italic text-sm md:text-base space-y-4">
+              <p>¡Bienvenidos a Casa del Sol! Soy el orgulloso propietario y fundador de esta empresa de alquileres vacacionales, dedicada a crear estancias inolvidables para cada huésped. Con años de experiencia en la industria de la hospitalidad y una profunda pasión por los viajes, he diseñado cada propiedad para combinar comodidad, estilo y un toque del encanto local. Ya sea que estés buscando una escapada tranquila o unas vacaciones llenas de aventuras, Casa del Sol ofrece espacios cuidadosamente diseñados que se sienten como un verdadero hogar lejos de casa.</p>
+              
+              <p>Como Superanfitrión en Airbnb, me enorgullece brindar un servicio excepcional y experiencias personalizadas. Mi objetivo es que cada huésped se sienta bienvenido, atendido e inspirado a volver. Desde el momento en que reservas con Casa del Sol hasta el día de tu salida, estoy aquí para asegurarme de que tu estancia sea perfecta y memorable.</p>
+              
+              <p>Además de ser anfitrión, también ofrezco servicios de gestión de propiedades vacacionales para propietarios que desean generar ingresos sin el estrés de las operaciones diarias. Si tienes una propiedad y estás buscando un socio de confianza que se encargue de todo, desde la comunicación con los huéspedes y la limpieza hasta el marketing y el mantenimiento, me encantaría ayudarte. Convirtamos tu hogar en un destino de cinco estrellas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -79,6 +100,7 @@ import landingBg from '../assets/malaga.jpg'
 import RentIcon from '../assets/renticon.png'
 import ManagementIcon from '../assets/managementicon.png'
 import LocationIcon from '../assets/locationicon.png'
+import ProfileImage from '../assets/Screenshot 2025-07-31 095955.png'
 import CaseCard from '../components/CaseCard.vue'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default {
@@ -90,7 +112,8 @@ export default {
       allProperties: [],
       RentIcon: RentIcon,
       ManagementIcon: ManagementIcon,
-      LocationIcon: LocationIcon
+      LocationIcon: LocationIcon,
+      ProfileImage: ProfileImage
     }
   },
   computed: {
