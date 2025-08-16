@@ -153,6 +153,12 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_ROOT = '/media'
 MEDIA_URL = '/media/'
 
+# File upload settings - Allow unlimited file sizes
+DATA_UPLOAD_MAX_MEMORY_SIZE = None
+FILE_UPLOAD_MAX_MEMORY_SIZE = None
+FILE_UPLOAD_TEMP_DIR = None  # Use default temp directory
+MAX_UPLOAD_SIZE = None  # No file size limit
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
