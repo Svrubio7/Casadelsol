@@ -155,7 +155,7 @@ MEDIA_URL = '/media/'
 
 # File upload settings - Allow unlimited file sizes
 DATA_UPLOAD_MAX_MEMORY_SIZE = None
-FILE_UPLOAD_MAX_MEMORY_SIZE = None
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440  # 2.5MB (default Django value)
 FILE_UPLOAD_TEMP_DIR = None  # Use default temp directory
 MAX_UPLOAD_SIZE = None  # No file size limit
 
