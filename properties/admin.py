@@ -11,8 +11,8 @@ class PropertyImageInline(admin.TabularInline):
 @admin.register(Property)
 class PropertyAdmin(admin.ModelAdmin):
     form = PropertyAdminForm
-    list_display = ("title", "location", "habitaciones", "banos", "precio", "featured")
-    list_filter = ("featured", "habitaciones", "banos")
+    list_display = ("title", "location", "habitaciones", "banos", "capacity", "precio", "featured")
+    list_filter = ("featured", "habitaciones", "banos", "capacity")
     search_fields = ("title", "location", "descripcion")
     inlines = [PropertyImageInline]
     fieldsets = (
@@ -23,7 +23,11 @@ class PropertyAdmin(admin.ModelAdmin):
             'fields': ('photos',)
         }),
         ('Detalles', {
-            'fields': ('habitaciones', 'banos', 'precio')
+            'fields': ('habitaciones', 'banos', 'capacity', 'precio')
+        }),
+        ('Ubicación y Mapa', {
+            'fields': ('latitude', 'longitude'),
+            'description': 'Coordenadas para el mapa (Mapbox)'
         }),
         ('Descripción', {
             'fields': ('descripcion', 'long_description', 'discount')
