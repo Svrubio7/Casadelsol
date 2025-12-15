@@ -37,20 +37,23 @@ class PropertyAdmin(admin.ModelAdmin):
         }),
     )
 
-    def save_related(self, request, form, formsets, change):
-        super().save_related(request, form, formsets, change)
-        photos = request.FILES.getlist('photos')
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        
+        # Get photos from cleaned form data (our custom MultipleFileField returns a list)
+        photos = form.cleaned_data.get('photos', [])
+        
         if photos:
             count = 0
             for photo in photos:
                 # Basic validation: ensure it's an image
-                if photo.content_type.startswith('image'):
+                if hasattr(photo, 'content_type') and photo.content_type.startswith('image'):
                     try:
-                        PropertyImage.objects.create(property=form.instance, image=photo)
+                        PropertyImage.objects.create(property=obj, image=photo)
                         count += 1
                     except Exception as e:
                         messages.error(request, f"Error al guardar {photo.name}: {str(e)}")
-                else:
+                elif hasattr(photo, 'name'):
                     messages.warning(request, f"El archivo {photo.name} no es una imagen válida y se omitió.")
             
             if count > 0:
