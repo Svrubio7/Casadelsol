@@ -7,7 +7,7 @@ from .serializers import PropertySerializer
 @api_view(['GET'])
 def featured_properties(request):
     featured = Property.objects.filter(featured=True)
-    serializer = PropertySerializer(featured, many=True)
+    serializer = PropertySerializer(featured, many=True, context={'request': request})
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -34,7 +34,7 @@ def property_list(request):
     if location:
         queryset = queryset.filter(location__icontains=location)
 
-    serializer = PropertySerializer(queryset, many=True)
+    serializer = PropertySerializer(queryset, many=True, context={'request': request})
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -43,5 +43,5 @@ def property_detail(request, pk):
         property_obj = Property.objects.get(pk=pk)
     except Property.DoesNotExist:
         return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
-    serializer = PropertySerializer(property_obj)
+    serializer = PropertySerializer(property_obj, context={'request': request})
     return Response(serializer.data)
