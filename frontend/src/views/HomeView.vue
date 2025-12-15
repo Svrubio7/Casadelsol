@@ -60,14 +60,21 @@
       </div>
     </section>
 
-    <!-- All Properties Section -->
-    <section class="py-12 md:py-16" id="propiedades">
+    <!-- Featured Properties Carousel Section -->
+    <section class="py-12 md:py-16 bg-white" id="propiedades">
       <div class="w-full px-4 md:px-8">
-        <div class="mb-8 md:mb-12 lg:mb-20">
-          <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 text-center text-palette-taupe">Propiedades</h2>
+        <div class="mb-8 md:mb-12 lg:mb-20 text-center">
+          <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 text-palette-taupe mb-4">Propiedades Destacadas</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">Explora nuestra selección exclusiva de alojamientos vacacionales.</p>
         </div>
-        <div class="flex flex-col space-y-4 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 lg:gap-8">
-          <CaseCard v-for="property in allProperties" :key="property.id" :caseData="property" />
+        
+        <!-- Use the new Carousel Component -->
+        <PropertyCarousel :properties="featuredProperties" />
+        
+        <div class="text-center mt-10">
+          <router-link to="/properties" class="btn-primary inline-block px-8 py-3 rounded-full shadow hover:shadow-lg transition">
+            Ver todas las propiedades
+          </router-link>
         </div>
       </div>
     </section>
@@ -101,15 +108,16 @@ import RentIcon from '../assets/renticon.png'
 import ManagementIcon from '../assets/managementicon.png'
 import LocationIcon from '../assets/locationicon.png'
 import ProfileImage from '../assets/pelu.jpg'
-import CaseCard from '../components/CaseCard.vue'
+import PropertyCarousel from '../components/PropertyCarousel.vue'
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default {
   name: 'HomeView',
-  components: { CaseCard },
-  // No need to register PNGs as components
+  components: { PropertyCarousel },
   data() {
     return {
-      allProperties: [],
+      featuredProperties: [],
       RentIcon: RentIcon,
       ManagementIcon: ManagementIcon,
       LocationIcon: LocationIcon,
@@ -124,30 +132,21 @@ export default {
     },
   },
   async mounted() {
-    await this.loadAllProperties()
+    await this.loadFeaturedProperties()
   },
   methods: {
     scrollToProperties() {
       const el = document.getElementById('propiedades');
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     },
-    async loadAllProperties() {
+    async loadFeaturedProperties() {
       try {
-        const response = await fetch(`${API_BASE_URL}properties/`)
-        this.allProperties = await response.json()
+        // Fetch only featured properties for the carousel
+        const response = await fetch(`${API_BASE_URL}properties/featured/`)
+        this.featuredProperties = await response.json()
       } catch (error) {
         console.error('Error loading properties:', error)
       }
-    },
-    formatAmount(amount) {
-      return new Intl.NumberFormat('es-ES').format(amount)
-    },
-    formatDate(dateString) {
-      return new Date(dateString).toLocaleDateString('es-ES', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })
     }
   }
 }

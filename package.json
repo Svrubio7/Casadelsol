@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@vueuse/head": "^2.0.0",
+    "mapbox-gl": "^3.17.0",
     "vue": "^3.5.18"
   }
 }

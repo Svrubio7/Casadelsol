@@ -8,11 +8,16 @@ class Property(models.Model):
     airbnb_link = models.URLField("AirBnB link", blank=True)
     habitaciones = models.PositiveIntegerField("Habitaciones")
     banos = models.PositiveIntegerField("Baños")
+    capacity = models.PositiveIntegerField("Capacidad (Personas)", default=2)  # New field
     precio = models.DecimalField("Precio", max_digits=10, decimal_places=2)
     descripcion = models.TextField("Descripción")
     long_description = models.TextField("Descripción Larga", blank=True)
     discount = models.TextField("Descuento Especial!", blank=True)
     featured = models.BooleanField("Destacado", default=False)
+    
+    # Mapbox coordinates
+    latitude = models.FloatField("Latitud", blank=True, null=True)
+    longitude = models.FloatField("Longitud", blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "Properties"

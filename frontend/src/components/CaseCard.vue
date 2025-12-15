@@ -5,13 +5,24 @@
         v-if="caseData.main_image"
         :src="getImageUrl(caseData.main_image)"
         :alt="caseData.title"
+        loading="lazy"
+        width="400"
+        height="250"
         class="w-full h-32 md:h-36 object-cover"
       />
       <div v-else class="w-full h-32 bg-gray-200 flex items-center justify-center text-gray-400">
         Sin imagen
       </div>
       <div class="p-3 md:p-4 flex-1 flex flex-col">
-        <div v-if="caseData.habitaciones || caseData.banos" class="text-sm md:text-base text-gray-500 mb-1 md:mb-0">{{ caseData.habitaciones }} hab. / {{ caseData.banos }} baños</div>
+        <div class="flex items-center text-sm md:text-base text-gray-500 mb-1 md:mb-0 space-x-2">
+           <span>{{ caseData.habitaciones }} hab.</span>
+           <span>•</span>
+           <span>{{ caseData.banos }} baños</span>
+           <span v-if="caseData.capacity">
+             <span>•</span>
+             <span class="font-medium text-primary-600">{{ caseData.capacity }} pers.</span>
+           </span>
+        </div>
         <div class="flex items-start justify-between mb-1">
           <h3 class="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 flex-1 mr-2">{{ caseData.title }}</h3>
           <span v-if="caseData.precio" class="text-lg md:text-xl text-primary-600 font-semibold whitespace-nowrap">€{{ formatAmount(caseData.precio) }} <span class="text-sm md:text-base font-bold">p/n</span></span>
