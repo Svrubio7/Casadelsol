@@ -35,6 +35,10 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Remove default nginx site config
 RUN rm /etc/nginx/sites-enabled/default || true
 
+# Copy startup script
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+
 # Expose port 80
 EXPOSE 80
-CMD service nginx start && gunicorn casadelsol.wsgi:application --bind 127.0.0.1:8000 --workers 3
+CMD ["/app/start.sh"]

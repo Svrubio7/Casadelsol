@@ -212,12 +212,10 @@
 </template>
 
 <script>
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
+import { config } from '../config.js';
 
-// Debug: Log token status (not the actual token for security)
-console.log('[MapConfig] API Base URL:', API_BASE_URL);
-console.log('[MapConfig] Mapbox Token configured:', !!MAPBOX_TOKEN, MAPBOX_TOKEN ? `(${MAPBOX_TOKEN.substring(0, 8)}...)` : '(missing)');
+const API_BASE_URL = config.API_BASE_URL;
+const MAPBOX_TOKEN = config.MAPBOX_TOKEN;
 
 export default {
   name: 'PropertiesView',

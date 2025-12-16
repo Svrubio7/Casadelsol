@@ -49,7 +49,8 @@
 import CaseCard from '@/components/CaseCard.vue'
 import heroImg from '@/assets/casabien.jpg'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { config } from '../config.js';
+const API_BASE_URL = config.API_BASE_URL;
 
 export default {
   name: 'Home',

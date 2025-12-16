@@ -183,9 +183,10 @@
 <script>
 import axios from 'axios'
 import { useHead } from '@vueuse/head'
+import { config } from '../config.js';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
+const API_BASE_URL = config.API_BASE_URL;
+const MAPBOX_TOKEN = config.MAPBOX_TOKEN;
 
 export default {
   name: "Detail",
