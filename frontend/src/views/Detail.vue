@@ -139,34 +139,75 @@
       </div>
     </div>
 
-    <!-- Gallery Modal - Touch optimized -->
-    <div v-if="showGallery" class="fixed inset-0 bg-black z-50 flex flex-col" @click="closeGallery">
+    <!-- Gallery Modal - Desktop & Mobile optimized -->
+    <div v-if="showGallery" class="fixed inset-0 bg-black/95 z-50 flex flex-col" @click="closeGallery">
       <!-- Header -->
-      <div class="flex items-center justify-between p-4 text-white">
-        <span class="font-medium">{{ currentImageIndex + 1 }} / {{ allImages.length }}</span>
-        <button @click="closeGallery" class="p-2 hover:bg-white/20 rounded-full transition">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      <div class="flex items-center justify-between p-4 text-white z-10">
+        <span class="font-medium text-lg">{{ currentImageIndex + 1 }} / {{ allImages.length }}</span>
+        <button @click.stop="closeGallery" class="p-2 hover:bg-white/20 rounded-full transition">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
       
-      <!-- Image -->
-      <div class="flex-1 flex items-center justify-center p-4" @click.stop>
-        <img 
-          :src="currentImage.src" 
-          class="max-h-full max-w-full object-contain"
+      <!-- Main content with side arrows -->
+      <div class="flex-1 flex items-center justify-center relative" @click.stop>
+        <!-- Left Arrow (Desktop) -->
+        <button 
+          v-if="allImages.length > 1"
+          @click.stop="previousImage" 
+          class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 md:p-4 rounded-full transition z-20"
+        >
+          <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+        </button>
+        
+        <!-- Image Container -->
+        <div 
+          class="max-w-[90vw] md:max-w-[70vw] lg:max-w-[60vw] max-h-[70vh] md:max-h-[75vh] flex items-center justify-center"
           @touchstart="handleTouchStart"
           @touchend="handleTouchEnd"
         >
+          <img 
+            :src="currentImage.src" 
+            class="max-h-[70vh] md:max-h-[75vh] max-w-full object-contain rounded-lg shadow-2xl"
+            :alt="`Imagen ${currentImageIndex + 1}`"
+          >
+        </div>
+        
+        <!-- Right Arrow (Desktop) -->
+        <button 
+          v-if="allImages.length > 1"
+          @click.stop="nextImage" 
+          class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 md:p-4 rounded-full transition z-20"
+        >
+          <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+        </button>
       </div>
       
-      <!-- Navigation -->
-      <div class="flex justify-center gap-4 p-4" v-if="allImages.length > 1">
-        <button @click.stop="previousImage" class="bg-white/20 text-white p-3 rounded-full hover:bg-white/30 transition">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <!-- Thumbnail strip (Desktop) -->
+      <div v-if="allImages.length > 1" class="hidden md:flex justify-center gap-2 p-4 overflow-x-auto">
+        <button 
+          v-for="(img, index) in allImages.slice(0, 10)" 
+          :key="index"
+          @click.stop="currentImageIndex = index"
+          class="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition"
+          :class="index === currentImageIndex ? 'border-white' : 'border-transparent opacity-50 hover:opacity-100'"
+        >
+          <img :src="img.src" class="w-full h-full object-cover" :alt="`Miniatura ${index + 1}`">
         </button>
-        <button @click.stop="nextImage" class="bg-white/20 text-white p-3 rounded-full hover:bg-white/30 transition">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-        </button>
+        <span v-if="allImages.length > 10" class="flex items-center text-white/70 text-sm px-2">
+          +{{ allImages.length - 10 }} más
+        </span>
+      </div>
+      
+      <!-- Dots (Mobile only) -->
+      <div class="flex md:hidden justify-center gap-1.5 p-4">
+        <span 
+          v-for="(_, index) in Math.min(allImages.length, 10)" 
+          :key="index"
+          class="w-2 h-2 rounded-full transition"
+          :class="index === currentImageIndex ? 'bg-white' : 'bg-white/40'"
+        ></span>
+        <span v-if="allImages.length > 10" class="text-white/50 text-xs ml-1">...</span>
       </div>
     </div>
   </div>
@@ -218,10 +259,19 @@ export default {
       this.currentImageIndex = index;
       this.showGallery = true;
       document.body.style.overflow = 'hidden';
+      // Add keyboard listener
+      document.addEventListener('keydown', this.handleKeyDown);
     },
     closeGallery() {
       this.showGallery = false;
       document.body.style.overflow = 'auto';
+      // Remove keyboard listener
+      document.removeEventListener('keydown', this.handleKeyDown);
+    },
+    handleKeyDown(e) {
+      if (e.key === 'ArrowRight') this.nextImage();
+      else if (e.key === 'ArrowLeft') this.previousImage();
+      else if (e.key === 'Escape') this.closeGallery();
     },
     nextImage() {
       this.currentImageIndex = (this.currentImageIndex + 1) % this.allImages.length;
@@ -354,6 +404,7 @@ export default {
       this.map.remove();
     }
     document.body.style.overflow = 'auto';
+    document.removeEventListener('keydown', this.handleKeyDown);
   }
 }
 </script>
