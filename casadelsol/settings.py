@@ -79,11 +79,17 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "https://casadelsolholidays.es",
+    "https://www.casadelsolholidays.es",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://www.casadelsolholidays.es",
     "https://casadelsolholidays.es",
 ]
+
+# Tell Django we're behind HTTPS proxy (fixes mixed content warnings)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
 
 WSGI_APPLICATION = 'casadelsol.wsgi.application'
 
