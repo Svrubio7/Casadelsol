@@ -264,12 +264,10 @@ export default {
     
     async switchToMap() {
       this.viewMode = 'map';
-      if (!this.mapInitialized) {
-        // Wait for DOM to update
-        await this.$nextTick();
-        // Small delay to ensure container is rendered
-        setTimeout(() => this.initMap(), 100);
-      }
+      // Always re-initialize map when switching to map view
+      // because the container is destroyed when switching to list view
+      await this.$nextTick();
+      setTimeout(() => this.initMap(), 100);
     },
     
     async initMap() {
@@ -280,15 +278,17 @@ export default {
         return;
       }
       
-      // Check if already initialized
-      if (this.mapInitialized) return;
-      
       // Check container exists
       const container = document.getElementById('properties-map');
       if (!container) {
         this.mapError = 'Contenedor del mapa no encontrado';
         console.error('Map container not found');
         return;
+      }
+      
+      // Destroy existing map if any (for re-initialization)
+      if (this.map) {
+        this.destroyMap();
       }
       
       this.mapLoading = true;
@@ -348,6 +348,7 @@ export default {
         this.map = null;
       }
       this.markers = {};
+      this.mapInitialized = false;
     },
     
     updateMapMarkers() {
