@@ -15,7 +15,7 @@
           Lista
         </button>
         <button 
-          @click="viewMode = 'map'"
+          @click="switchToMap"
           :class="viewMode === 'map' ? 'bg-white shadow text-palette-taupe' : 'text-gray-500 hover:text-gray-700'"
           class="px-4 py-2 rounded-md text-sm font-medium transition flex items-center gap-2"
         >
@@ -173,14 +173,28 @@
           
           <!-- Map Container -->
           <div class="flex-1 relative bg-gray-100">
-            <div v-if="!mapboxToken" class="absolute inset-0 flex items-center justify-center bg-gray-100">
-              <div class="text-center p-8">
-                <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
-                <p class="text-gray-500">Mapa no disponible</p>
-                <p class="text-sm text-gray-400">Usa la vista de lista para ver las propiedades</p>
+            <!-- Loading State -->
+            <div v-if="mapLoading" class="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
+              <div class="text-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-palette-taupe mx-auto mb-4"></div>
+                <p class="text-gray-500">Cargando mapa...</p>
               </div>
             </div>
-            <div v-else id="map" class="w-full h-full"></div>
+            
+            <!-- Error State -->
+            <div v-if="mapError" class="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
+              <div class="text-center p-8">
+                <svg class="w-16 h-16 text-red-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <p class="text-gray-700 font-medium mb-2">No se pudo cargar el mapa</p>
+                <p class="text-sm text-gray-500 mb-4">{{ mapError }}</p>
+                <button @click="retryMap" class="px-4 py-2 bg-palette-taupe text-white rounded-lg hover:bg-opacity-90 transition">
+                  Reintentar
+                </button>
+              </div>
+            </div>
+            
+            <!-- Map div always rendered -->
+            <div id="properties-map" class="w-full h-full"></div>
           </div>
         </div>
         
@@ -201,17 +215,23 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
+// Debug: Log token status (not the actual token for security)
+console.log('[MapConfig] API Base URL:', API_BASE_URL);
+console.log('[MapConfig] Mapbox Token configured:', !!MAPBOX_TOKEN, MAPBOX_TOKEN ? `(${MAPBOX_TOKEN.substring(0, 8)}...)` : '(missing)');
+
 export default {
   name: 'PropertiesView',
   data() {
     return {
       map: null,
+      mapboxgl: null,
       markers: {},
       properties: [],
       showFilters: false,
-      viewMode: 'list', // 'list' or 'map'
+      viewMode: 'list',
       mapInitialized: false,
-      mapboxToken: MAPBOX_TOKEN,
+      mapLoading: false,
+      mapError: null,
       filters: {
         capacity: 1,
         habitaciones: 0,
@@ -219,18 +239,11 @@ export default {
       }
     }
   },
-  watch: {
-    // Lazy load map only when user switches to map view
-    viewMode(newMode) {
-      if (newMode === 'map' && !this.mapInitialized && MAPBOX_TOKEN) {
-        this.$nextTick(() => {
-          this.initMap();
-        });
-      }
-    }
-  },
   async mounted() {
     await this.fetchProperties();
+  },
+  beforeUnmount() {
+    this.destroyMap();
   },
   methods: {
     async fetchProperties() {
@@ -243,39 +256,102 @@ export default {
         const res = await fetch(`${API_BASE_URL}properties/?${params.toString()}`);
         this.properties = await res.json();
         
-        // Update markers if map is already initialized
-        if (this.mapInitialized) {
+        if (this.mapInitialized && this.map) {
           this.updateMapMarkers();
         }
       } catch (e) {
         console.error("Error fetching properties", e);
       }
     },
-    async initMap() {
-      if (!MAPBOX_TOKEN || this.mapInitialized) return;
-      
-      // Dynamically import mapbox-gl for better code splitting
-      const mapboxgl = (await import('mapbox-gl')).default;
-      await import('mapbox-gl/dist/mapbox-gl.css');
-      
-      mapboxgl.accessToken = MAPBOX_TOKEN;
-      
-      this.map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/light-v11',
-        center: [-4.4214, 36.7212], // Malaga
-        zoom: 12
-      });
-
-      this.map.on('load', () => {
-        this.mapInitialized = true;
-        this.updateMapMarkers();
-        this.map.resize();
-      });
-      
-      // Store mapboxgl reference for creating markers
-      this.mapboxgl = mapboxgl;
+    
+    async switchToMap() {
+      this.viewMode = 'map';
+      if (!this.mapInitialized) {
+        // Wait for DOM to update
+        await this.$nextTick();
+        // Small delay to ensure container is rendered
+        setTimeout(() => this.initMap(), 100);
+      }
     },
+    
+    async initMap() {
+      // Check token
+      if (!MAPBOX_TOKEN) {
+        this.mapError = 'Token de Mapbox no configurado. Por favor configure VITE_MAPBOX_TOKEN.';
+        console.error('Mapbox token missing. Set VITE_MAPBOX_TOKEN environment variable.');
+        return;
+      }
+      
+      // Check if already initialized
+      if (this.mapInitialized) return;
+      
+      // Check container exists
+      const container = document.getElementById('properties-map');
+      if (!container) {
+        this.mapError = 'Contenedor del mapa no encontrado';
+        console.error('Map container not found');
+        return;
+      }
+      
+      this.mapLoading = true;
+      this.mapError = null;
+      
+      try {
+        // Dynamic import
+        const mapboxModule = await import('mapbox-gl');
+        this.mapboxgl = mapboxModule.default;
+        
+        // Set token
+        this.mapboxgl.accessToken = MAPBOX_TOKEN;
+        
+        // Create map
+        this.map = new this.mapboxgl.Map({
+          container: 'properties-map',
+          style: 'mapbox://styles/mapbox/streets-v12',
+          center: [-4.4214, 36.7212], // Málaga
+          zoom: 11
+        });
+        
+        // Add navigation controls
+        this.map.addControl(new this.mapboxgl.NavigationControl(), 'top-right');
+        
+        // Wait for map to load
+        this.map.on('load', () => {
+          this.mapInitialized = true;
+          this.mapLoading = false;
+          this.updateMapMarkers();
+          this.map.resize();
+        });
+        
+        // Handle errors
+        this.map.on('error', (e) => {
+          console.error('Mapbox error:', e);
+          this.mapError = 'Error al cargar el mapa: ' + (e.error?.message || 'Error desconocido');
+          this.mapLoading = false;
+        });
+        
+      } catch (error) {
+        console.error('Failed to initialize map:', error);
+        this.mapError = 'Error al cargar Mapbox: ' + error.message;
+        this.mapLoading = false;
+      }
+    },
+    
+    retryMap() {
+      this.mapError = null;
+      this.mapInitialized = false;
+      this.destroyMap();
+      setTimeout(() => this.initMap(), 100);
+    },
+    
+    destroyMap() {
+      if (this.map) {
+        this.map.remove();
+        this.map = null;
+      }
+      this.markers = {};
+    },
+    
     updateMapMarkers() {
       if (!this.map || !this.mapboxgl) return;
 
@@ -283,21 +359,40 @@ export default {
       Object.values(this.markers).forEach(marker => marker.remove());
       this.markers = {};
 
+      const bounds = new this.mapboxgl.LngLatBounds();
+      let hasValidCoords = false;
+
       this.properties.forEach(prop => {
         if (!prop.latitude || !prop.longitude) return;
-
-        const el = document.createElement('div');
-        el.className = 'marker bg-white text-palette-taupe font-bold text-sm px-3 py-1 rounded-full shadow-md border border-gray-200 hover:scale-110 transition cursor-pointer hover:bg-palette-taupe hover:text-white';
-        el.innerHTML = `Desde €${prop.precio}`;
         
-        const popup = new this.mapboxgl.Popup({ offset: 25, closeButton: false })
-          .setHTML(`
-            <div class="text-sm p-1">
-              <div class="font-bold text-gray-900 mb-1">${prop.title}</div>
-              <div class="text-gray-500 text-xs mb-2">${prop.location}</div>
-              <a href="/apartments/${prop.id}" class="block w-full text-center bg-palette-taupe text-white text-xs py-1 rounded hover:opacity-90 transition">Ver propiedad</a>
+        hasValidCoords = true;
+        bounds.extend([prop.longitude, prop.latitude]);
+
+        // Create custom marker element
+        const el = document.createElement('div');
+        el.className = 'custom-marker';
+        el.innerHTML = `
+          <div class="bg-white text-gray-800 font-bold text-sm px-3 py-2 rounded-full shadow-lg border-2 border-palette-taupe cursor-pointer hover:bg-palette-taupe hover:text-white transition-all transform hover:scale-110" style="white-space: nowrap;">
+            €${prop.precio}
+          </div>
+        `;
+        
+        // Create popup
+        const popup = new this.mapboxgl.Popup({ 
+          offset: 25, 
+          closeButton: true,
+          maxWidth: '300px'
+        }).setHTML(`
+          <div class="p-2">
+            <img src="${this.getImageUrl(prop.main_image)}" class="w-full h-32 object-cover rounded-lg mb-2" alt="${prop.title}">
+            <h3 class="font-bold text-gray-900 mb-1">${prop.title}</h3>
+            <p class="text-gray-500 text-sm mb-2">${prop.location}</p>
+            <div class="flex justify-between items-center">
+              <span class="font-bold text-palette-taupe">Desde €${prop.precio}/noche</span>
+              <a href="/apartments/${prop.id}" class="bg-palette-taupe text-white text-sm px-3 py-1 rounded-lg hover:bg-opacity-90">Ver</a>
             </div>
-          `);
+          </div>
+        `);
 
         const marker = new this.mapboxgl.Marker({ element: el })
           .setLngLat([prop.longitude, prop.latitude])
@@ -306,7 +401,13 @@ export default {
             
         this.markers[prop.id] = marker;
       });
+
+      // Fit bounds if we have valid coordinates
+      if (hasValidCoords && Object.keys(this.markers).length > 0) {
+        this.map.fitBounds(bounds, { padding: 50, maxZoom: 14 });
+      }
     },
+    
     updateFilter(key, delta) {
       if (key === 'capacity') {
         this.filters.capacity = Math.max(1, this.filters.capacity + delta);
@@ -323,17 +424,21 @@ export default {
     highlightMarker(id) {
       if (this.markers[id]) {
         const el = this.markers[id].getElement();
-        el.classList.add('bg-palette-taupe', 'text-white', 'scale-110');
-        el.classList.remove('bg-white', 'text-palette-taupe');
-        el.style.zIndex = 10;
+        const innerDiv = el.querySelector('div');
+        if (innerDiv) {
+          innerDiv.classList.add('bg-palette-taupe', 'text-white', 'scale-110');
+          innerDiv.classList.remove('bg-white', 'text-gray-800');
+        }
       }
     },
     unhighlightMarker(id) {
       if (this.markers[id]) {
         const el = this.markers[id].getElement();
-        el.classList.remove('bg-palette-taupe', 'text-white', 'scale-110');
-        el.classList.add('bg-white', 'text-palette-taupe');
-        el.style.zIndex = 1;
+        const innerDiv = el.querySelector('div');
+        if (innerDiv) {
+          innerDiv.classList.remove('bg-palette-taupe', 'text-white', 'scale-110');
+          innerDiv.classList.add('bg-white', 'text-gray-800');
+        }
       }
     },
     flyToProperty(prop) {
@@ -343,7 +448,9 @@ export default {
           zoom: 15,
           essential: true
         });
-        if (this.markers[prop.id]) this.markers[prop.id].togglePopup();
+        if (this.markers[prop.id]) {
+          this.markers[prop.id].togglePopup();
+        }
       }
     },
     getImageUrl(path) {
@@ -358,8 +465,17 @@ export default {
 <style>
 .mapboxgl-popup-content {
   border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  font-family: 'Inter', system-ui, sans-serif;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+}
+.mapboxgl-popup-close-button {
+  font-size: 18px;
+  padding: 4px 8px;
+  color: #666;
+}
+.mapboxgl-ctrl-group {
+  border-radius: 8px !important;
+  overflow: hidden;
 }
 </style>

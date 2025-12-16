@@ -240,27 +240,55 @@ export default {
       }
     },
     async initMap() {
-      if (!this.propertyData?.latitude || !MAPBOX_TOKEN) return;
+      if (!this.propertyData?.latitude || !this.propertyData?.longitude) {
+        console.log('No coordinates available for map');
+        return;
+      }
       
-      // Dynamic import for better code splitting
-      const mapboxgl = (await import('mapbox-gl')).default;
+      if (!MAPBOX_TOKEN) {
+        console.warn('Mapbox token not configured. Set VITE_MAPBOX_TOKEN environment variable.');
+        return;
+      }
       
-      mapboxgl.accessToken = MAPBOX_TOKEN;
-      this.map = new mapboxgl.Map({
-        container: 'detail-map',
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: [this.propertyData.longitude, this.propertyData.latitude],
-        zoom: 14,
-        interactive: true // Make it interactive!
-      });
+      // Wait for container to be ready
+      const container = document.getElementById('detail-map');
+      if (!container) {
+        console.warn('Map container not found, retrying...');
+        setTimeout(() => this.initMap(), 200);
+        return;
+      }
       
-      // Add navigation controls
-      this.map.addControl(new mapboxgl.NavigationControl(), 'top-right');
-      
-      // Add marker
-      new mapboxgl.Marker({ color: '#0C2340' })
-        .setLngLat([this.propertyData.longitude, this.propertyData.latitude])
-        .addTo(this.map);
+      try {
+        // Dynamic import for better code splitting
+        const mapboxModule = await import('mapbox-gl');
+        const mapboxgl = mapboxModule.default;
+        
+        mapboxgl.accessToken = MAPBOX_TOKEN;
+        
+        this.map = new mapboxgl.Map({
+          container: 'detail-map',
+          style: 'mapbox://styles/mapbox/streets-v12',
+          center: [this.propertyData.longitude, this.propertyData.latitude],
+          zoom: 14,
+          interactive: true
+        });
+        
+        // Add navigation controls
+        this.map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+        
+        // Add marker with custom color
+        new mapboxgl.Marker({ color: '#0C2340' })
+          .setLngLat([this.propertyData.longitude, this.propertyData.latitude])
+          .addTo(this.map);
+          
+        // Resize map when loaded
+        this.map.on('load', () => {
+          this.map.resize();
+        });
+        
+      } catch (error) {
+        console.error('Failed to initialize map:', error);
+      }
     }
   },
   async created() {
