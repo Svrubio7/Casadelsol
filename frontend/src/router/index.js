@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Detail from '../views/Detail.vue'
 import PropertiesView from '../views/PropertiesView.vue'
+import CookiePolicy from '../views/CookiePolicy.vue'
 
 // Optional: About placeholder
 const About = { template: '<div class="max-w-2xl mx-auto py-20 text-center text-xl">Acerca de este portal...</div>' }
@@ -11,6 +12,7 @@ const routes = [
   { path: '/properties', name: 'properties', component: PropertiesView },
   { path: '/apartments/:id', name: 'property-detail', component: Detail, props: true },
   { path: '/about', name: 'about', component: About },
+  { path: '/cookie-policy', name: 'cookie-policy', component: CookiePolicy },
   { path: '/:catchAll(.*)', redirect: '/' }
 ]
 

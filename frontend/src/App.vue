@@ -1,6 +1,59 @@
 <script>
+import CookieConsent from './components/CookieConsent.vue'
+
 export default {
-  name: "App"
+  name: "App",
+  components: {
+    CookieConsent
+  },
+  methods: {
+    handleConsentUpdated(preferences) {
+      // Dispatch event to trigger Google Analytics loading
+      window.dispatchEvent(new CustomEvent('cookie-consent-updated', { detail: preferences }))
+      
+      // Load Google Analytics if analytics consent was given
+      if (preferences && preferences.analytics === true && typeof window.gtag === 'undefined') {
+        this.loadGoogleAnalytics()
+      }
+    },
+    showCookieSettings() {
+      // Open cookie settings dialog
+      if (this.$refs.cookieConsent && this.$refs.cookieConsent.openSettings) {
+        this.$refs.cookieConsent.openSettings()
+      }
+    },
+    loadGoogleAnalytics() {
+      // Check if already loaded
+      if (document.querySelector('script[src*="googletagmanager"]')) {
+        return
+      }
+      
+      const script1 = document.createElement('script')
+      script1.async = true
+      script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-LRJJ0QZ6X8'
+      document.head.appendChild(script1)
+      
+      window.dataLayer = window.dataLayer || []
+      function gtag(){window.dataLayer.push(arguments)}
+      gtag('js', new Date())
+      gtag('config', 'G-LRJJ0QZ6X8')
+      window.gtag = gtag
+    }
+  },
+  mounted() {
+    // Check if user already consented to analytics and load GA
+    const consentPreferences = localStorage.getItem('cookie_consent_preferences')
+    if (consentPreferences) {
+      try {
+        const prefs = JSON.parse(consentPreferences)
+        if (prefs.analytics === true) {
+          this.loadGoogleAnalytics()
+        }
+      } catch (e) {
+        console.error('Error checking consent:', e)
+      }
+    }
+  }
 }
 </script>
 
@@ -30,9 +83,13 @@ export default {
     <!-- Footer -->
     <footer class="bg-palette-yellow text-palette-light py-6 mt-12 border-t border-gray-200">
       <div class="container mx-auto px-4">
-        <div class="flex justify-between items-center">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div class="text-sm">
-            © {{ new Date().getFullYear() }} <span class="notranslate">Casa del Sol</span>.
+            <p>© {{ new Date().getFullYear() }} <span class="notranslate">Casa del Sol</span>.</p>
+            <div class="text-xs mt-2 space-x-3">
+              <router-link to="/cookie-policy" class="hover:underline">Política de Cookies</router-link>
+              <button @click="showCookieSettings" class="hover:underline">Gestionar Cookies</button>
+            </div>
           </div>
           <div class="text-right">
             <h4 class="text-sm font-bold mb-1">Contáctanos</h4>
@@ -44,6 +101,9 @@ export default {
         </div>
       </div>
     </footer>
+    
+    <!-- Cookie Consent Banner -->
+    <CookieConsent ref="cookieConsent" @consent-updated="handleConsentUpdated" />
   </div>
 </template>
 
