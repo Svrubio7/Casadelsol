@@ -1,0 +1,16 @@
+.dbpassword.txt
+.claude-flow/
+.claude/
+.env
+.env.local
+.venv/
+.mcp.json
+.claude-flow-config.json
+.claude-flow-metrics/
+.claude-flow-security/
+.cursor/_dbdump/
+*.dir.tar.gz
+*.sql
+
+# Never commit dependencies
+node_modules/
